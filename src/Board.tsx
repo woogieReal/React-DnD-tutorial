@@ -25,6 +25,7 @@ export const Board: FC<BoardProps> = ({ game }) => {
   const [[knightX, knightY], setKnightPos] = useState<Position>(
     game.knightPosition,
   )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => game.observe(setKnightPos))
 
   function renderSquare(i: number) {

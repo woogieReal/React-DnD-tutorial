@@ -18,13 +18,17 @@ export const Knight: FC = () => {
       }),
     }),
     [],
-  )
+  );
 
   return (
     <>
-      <DragPreviewImage connect={preview} src={knightImage} />
+      <DragPreviewImage 
+        connect={preview} 
+        src={knightImage} 
+      />
+
       <div
-        ref={drag}
+        ref={drag} 
         style={{
           ...knightStyle,
           opacity: isDragging ? 0.5 : 1,

@@ -34,6 +34,7 @@ export const BoardSquare: FC<BoardSquareProps> = ({
   return (
     <div
       ref={drop}
+      // eslint-disable-next-line jsx-a11y/aria-role
       role="Space"
       data-testid={`(${x},${y})`}
       style={{
