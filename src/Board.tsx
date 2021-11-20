@@ -1,8 +1,11 @@
-// eslint-disable-next-line
-import { CSSProperties, FC, useEffect, useState } from 'react' 
-import { Square } from './Square'
-import { Knight } from './Knight'
+import { CSSProperties, FC, useEffect, useState } from 'react'
+import { BoardSquare } from './BoardSquare'
+import { Game, Position } from './Game'
+import { Piece } from './Piece'
 
+export interface BoardProps {
+  game: Game
+}
 
 /** Styling properties applied to the board element */
 const boardStyle: CSSProperties = {
@@ -11,39 +14,35 @@ const boardStyle: CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
 }
-
 /** Styling properties applied to each square element */
 const squareStyle: CSSProperties = { width: '12.5%', height: '12.5%' }
 
-export interface BoardProps {
-  knightPosition: Array<number>;
-}
-
-const renderSquare = (i: number, [knightX, knightY]: Array<number>) => {
-  const x = i % 8
-  const y = Math.floor(i / 8)
-  const isKnightHere = x === knightX && y === knightY
-  const black = (x + y) % 2 === 1
-  const piece = isKnightHere ? <Knight /> : null
-
-  // console.log(` ${x} ${y} ${black} ${isKnightHere} `);
-
-  return (
-    <div key={i} style={squareStyle}>
-      <Square black={black}>{piece}</Square>
-    </div>
+/**
+ * The chessboard component
+ * @param props The react props
+ */
+export const Board: FC<BoardProps> = ({ game }) => {
+  const [[knightX, knightY], setKnightPos] = useState<Position>(
+    game.knightPosition,
   )
-}
+  useEffect(() => game.observe(setKnightPos))
 
-export const Board: FC<BoardProps> = ({ knightPosition }) => {
-  const squares = []
-  for (let i = 0; i < 64; i++) {
-    squares.push(renderSquare(i, knightPosition))
+  function renderSquare(i: number) {
+    const x = i % 8
+    const y = Math.floor(i / 8)
+
+    return (
+      <div key={i} style={squareStyle}>
+        <BoardSquare x={x} y={y} game={game}>
+          <Piece isKnight={x === knightX && y === knightY} />
+        </BoardSquare>
+      </div>
+    )
   }
 
-  return (
-    <div style={boardStyle}>
-      {squares}
-    </div>
-  )
+  const squares = []
+  for (let i = 0; i < 64; i += 1) {
+    squares.push(renderSquare(i))
+  }
+  return <div style={boardStyle}>{squares}</div>
 }
