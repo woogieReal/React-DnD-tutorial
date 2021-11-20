@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Knight from './Knight'
+import { Board } from './Board'
 
-ReactDOM.render(<Knight />, document.getElementById('root'))
+ReactDOM.render(
+  <Board knightPosition={[0, 1]} />
+  , document.getElementById('root')
+)

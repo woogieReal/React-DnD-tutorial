@@ -1,5 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 
-export default function Knight() {
-  return <span>♘</span>
+export const Knight: FC = () => {
+  return (
+    <span>♘</span>
+  )
 }
