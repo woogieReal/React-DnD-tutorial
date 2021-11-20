@@ -1,21 +1,21 @@
-import { FC, ReactNode } from 'react'
-import { useDrop } from 'react-dnd'
-import { Square } from './Square'
-import { ItemTypes } from './ItemTypes'
-import { Overlay, OverlayType } from './Overlay'
-import { Game } from './Game'
+import { FC, ReactNode } from "react";
+import { useDrop } from "react-dnd";
+import { Square } from "./Square";
+import { ItemTypes } from "./ItemTypes";
+import { Overlay, OverlayType } from "./Overlay";
+import { Game } from "./Game";
 export interface BoardSquareProps {
-  x: number
-  y: number
-  children?: ReactNode
-  game: Game
+  x: number;
+  y: number;
+  children?: ReactNode;
+  game: Game;
 }
 
 export const BoardSquare: FC<BoardSquareProps> = ({
   x,
   y,
   children,
-  game,
+  game
 }: BoardSquareProps) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
@@ -24,12 +24,12 @@ export const BoardSquare: FC<BoardSquareProps> = ({
       drop: () => game.moveKnight(x, y),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop(),
-      }),
+        canDrop: !!monitor.canDrop()
+      })
     }),
-    [game],
-  )
-  const black = (x + y) % 2 === 1
+    [game]
+  );
+  const black = (x + y) % 2 === 1;
 
   return (
     <div
@@ -37,9 +37,9 @@ export const BoardSquare: FC<BoardSquareProps> = ({
       role="Space"
       data-testid={`(${x},${y})`}
       style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
+        position: "relative",
+        width: "100%",
+        height: "100%"
       }}
     >
       <Square black={black}>{children}</Square>
@@ -47,5 +47,5 @@ export const BoardSquare: FC<BoardSquareProps> = ({
       {!isOver && canDrop && <Overlay type={OverlayType.PossibleMove} />}
       {isOver && canDrop && <Overlay type={OverlayType.LegalMoveHover} />}
     </div>
-  )
-}
+  );
+};
